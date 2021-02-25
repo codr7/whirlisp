@@ -1,7 +1,6 @@
-A whirlwind Lisp adventure
+# A whirlwind Lisp adventure
 
-All the code presented here may be found [here](https://).
-Besides the code, you'll need a Common Lisp implementation; the most popular open source alternative being SBCL, which may be found [here](http://sbcl.org/).
+Besides the [code](https://github.com/codr7/whirlisp/blob/main/whir.lisp), you'll need a Common Lisp implementation; the most popular open source alternative being SBCL, which may be found [here](http://sbcl.org/).
 
 I personally prefer Emacs (https://www.gnu.org/software/emacs/) with SLIME (https://common-lisp.net/project/slime/) backed by SBCL as my Lisp IDE, with syntax coloring turned off; it's an aquired taste, or lack of depending who you ask.
 
