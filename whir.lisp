@@ -168,15 +168,15 @@
   (let-table (users (username :primary-key? t) password)
     (with-open-tables (users)
       (let ((rec (new-record 'username "ben_dover"
-			     'password "badumdish")))
+			     'password "badum")))
         (upsert users rec)
         (assert (string= (column-value (find-key users "ben_dover") 'password)
-                         "badumdish"))
+                         "badum"))
 	
-        (let ((rec (set-column-values rec 'password "leaving!")))
+        (let ((rec (set-column-values rec 'password "dish")))
           (upsert users rec)
           (assert (string= (column-value (find-key users "ben_dover") 'password)
-                           "leaving!")))))))
+                           "dish")))))))
 
 (defun tests ()
   (test-1a)

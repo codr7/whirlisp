@@ -238,15 +238,15 @@ With macros in place, it's time to add the final missing pieces: inserting, upda
   (let-table (users (username :primary-key? t) password)
     (with-open-tables (users)
       (let ((rec (new-record 'username "ben_dover"
-			     'password "badumdish")))
+			     'password "badum")))
         (upsert users rec)
         (assert (string= (column-value (find-key users "ben_dover") 'password)
-                         "badumdish"))
+                         "badum"))
 	
-        (let ((rec (set-column-values rec 'password "leaving!")))
+        (let ((rec (set-column-values rec 'password "dish")))
           (upsert users rec)
           (assert (string= (column-value (find-key users "ben_dover") 'password)
-                           "leaving!")))))))
+                           "dish")))))))
 
 (defun tests ()
   (test-1a)
@@ -261,8 +261,8 @@ All that remains is executing `(whirlisp:tests)` after loading `whir.lisp` to ru
 This is what the file `users.tbl` contains after running `test-2`:
 
 ```
-("ben_dover")((PASSWORD . "badumdish") (USERNAME . "ben_dover"))
-("ben_dover")((PASSWORD . "leaving!") (USERNAME . "ben_dover"))
+("ben_dover")((PASSWORD . "badum") (USERNAME . "ben_dover"))
+("ben_dover")((PASSWORD . "dish") (USERNAME . "ben_dover"))
 ```
 
 ### Limitations
