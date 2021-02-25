@@ -1,8 +1,8 @@
 # A whirlwind Lisp adventure
 
-Besides the [code](https://github.com/codr7/whirlisp/blob/main/whir.lisp), you'll need a Common Lisp implementation; the most popular open source alternative being SBCL, which may be found [here](http://sbcl.org/).
+Besides the [code](https://github.com/codr7/whirlisp/blob/main/whir.lisp), you'll need a Common Lisp implementation; the most popular open source alternative being [SBCL](http://sbcl.org/).
 
-I personally prefer Emacs (https://www.gnu.org/software/emacs/) with SLIME (https://common-lisp.net/project/slime/) backed by SBCL as my Lisp IDE, with syntax coloring turned off; it's an aquired taste, or lack of depending who you ask.
+I personally prefer [Emacs](https://www.gnu.org/software/emacs/) with [SLIME](https://common-lisp.net/project/slime/) backed by SBCL as my Lisp IDE, with syntax coloring turned off; it's an aquired taste, or lack of depending who you ask.
 
 We will implement a log-based table abstraction modeled on relational databases in Common Lisp, and take it just far enough to be practically useful. To get a real worldish perspective of how macros may be used to mould the language around the solution, which allows compressing code without sacrificing clarity.
 
