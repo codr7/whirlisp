@@ -21,7 +21,7 @@ As should be expected, writing macros takes a tiny bit more discipline and effor
 
 Lets start by creating a class to represent tables with names, columns and records.
 
-```
+```lisp
 (defpackage whirlisp
   (:use cl)
   (:export tests))
