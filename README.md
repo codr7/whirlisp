@@ -7,7 +7,7 @@ We will implement a log-based table abstraction modeled on relational databases 
 
 Besides the [code](https://github.com/codr7/whirlisp/blob/main/whir.lisp), you'll need a Common Lisp implementation; the most popular open source alternative being [SBCL](http://sbcl.org/).
 
-I personally prefer [Emacs](https://www.gnu.org/software/emacs/) with [SLIME](https://common-lisp.net/project/slime/) backed by SBCL as my Lisp IDE, with syntax coloring turned off; it's an aquired taste, or lack of depending on who you ask.
+I personally prefer [Emacs](https://www.gnu.org/software/emacs/) with [SLIME](https://common-lisp.net/project/slime/) backed by SBCL as my Lisp IDE, with syntax coloring turned off; it's an aquired taste, or complete lack of depending on who you ask.
 
 It's worth noting that Common Lisp's OOP facilities started out as a bunch of macros on top of a third party implementation; and even though modern compilers usually have built-in support, there was no need for major changes during standardization since Lisp macros already operate on the language implementation level.
 
