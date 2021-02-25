@@ -263,6 +263,6 @@ Before we part for now, I feel obliged to mention a few limitations, lest someon
 
 I have intentionally left deletion as an exercise; the most obvious solution I can think of is writing a sentinel value, `:deleted` for example, in place of the record and adding the required logic to `read-records` using `(remhash key tbl)`.
 
-Thanks a bunch for listening, not much point in talking otherwise :)
+Thanks a bunch for listening, no point in talking otherwise :)
 
 /codr7
