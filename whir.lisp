@@ -78,7 +78,9 @@
   "Returns REC with updated FLDS"
   (labels ((acc (in out)
 	     (if in
-		 (acc (rest (rest in)) (cons (cons (first in) (second in)) out))
+		 (acc (rest (rest in))
+		      (cons (cons (first in) (second in))
+			    out))
 		 out)))
     (acc flds rec)))
 
