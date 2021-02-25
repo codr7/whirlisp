@@ -148,9 +148,11 @@
   (with-slots (file) tbl
     (let ((key (mapcar (lambda (c)
                          (rest (assoc (name c) rec)))
-                       (primary-key tbl))))
+                       (primary-key tbl)))
+	  (rec (remove-duplicates rec :key #'first :from-end t)))
       (write key :stream file)
       (write rec :stream file)
+      (terpri file)
       (setf (gethash key (records tbl)) rec))))
 
 (defmethod find-key (tbl &rest key)
