@@ -81,7 +81,7 @@ Lets start by creating a class to represent tables with names, columns and recor
   (hash-table-count (records tbl)))
 ```
 
-All that's left is deciding on a representation for columns, we will go with a class here as well.
+Next up is deciding on a representation for columns, we will go with a class here as well.
 
 ```lisp
 (defclass column ()
@@ -97,7 +97,11 @@ All that's left is deciding on a representation for columns, we will go with a c
          'column
          :name nam
 	 opts))
+```
 
+We will use immutable lists of pairs, aka. association lists or alists to represent records.
+
+```lisp
 (defun column-value (rec col)
   "Returns value for COL in REC"
   (rest (assoc col rec)))
