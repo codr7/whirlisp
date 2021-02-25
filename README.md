@@ -44,9 +44,7 @@ Lets start by creating a class to represent tables with names, columns and recor
   "Returns new table with NAM and COLS"
   (make-instance 'table
                  :name nam
-		 :primary-key (remove-if-not (lambda (c)
-		                               (primary-key? c))
-					     cols)
+		 :primary-key (remove-if-not #'primary-key? cols)
                  :columns cols))
 
 (defun read-records (tbl fil)
