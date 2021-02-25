@@ -261,7 +261,7 @@ Before we part for now, I feel obliged to mention a few limitations, lest someon
 * One thread at a time, people; multi-threading requires safe system-wide serialization of file accesses.
 * All records are stored in RAM; while not impossible to get around, doing so would add significant complexity.
 * NoACID, as in no transactions and no attempt to deal with hardware failures; both possible but complicated.
-* All values have to support being written and read back again, thankfully that includes most kinds of values you will encounter in Lisp.
+* Column values have to support being written and read back again, fortunately that includes most values you will encounter in Lisp.
 
 I have intentionally left deletion as an exercise; the most obvious solution I can think of is writing a sentinel value, `:deleted` for example, in place of the record and adding the required logic to `read-records` using `(remhash key tbl)`.
 
