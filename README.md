@@ -209,7 +209,6 @@ One indispensable tool for debugging macros is `macroexpand`.
 (LET ((USERS
        (NEW-TABLE 'USERS (NEW-COLUMN 'USERNAME :PRIMARY-KEY? T)
                   (NEW-COLUMN 'PASSWORD)))))
-T
 ```
 
 ### Missing pieces
