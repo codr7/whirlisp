@@ -3,7 +3,7 @@
 
 ### Introduction
 
-We will implement a log-based table abstraction modeled on relational databases in Common Lisp, and take it just far enough to be practically useful. To get a real worldish perspective of how macros may be used to mould the language around the solution, which allows compressing code **and** increasing clarity.
+We will implement a log-based, relational database in Common Lisp; and take it just far enough to be practically useful. To get a real worldish perspective of how macros may be used to mould the language around the solution, which allows compressing code **and** increasing clarity.
 
 Besides the [code](https://github.com/codr7/whirlisp/blob/main/whir.lisp), you'll need a Common Lisp implementation; the most popular open source alternative being [SBCL](http://sbcl.org/).
 
