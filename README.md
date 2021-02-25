@@ -255,9 +255,9 @@ With macros in place, it's time to add the final missing pieces: inserting, upda
   (test-2))
 ```
 
-### Limitations
-
 All that remains is executing `(whirlisp:tests)` after loading `whir.lisp` to run all tests.
+
+### Limitations
 
 Before we part, I feel obliged to mention a few limitations, lest someone gets any crazy ideas:
 
