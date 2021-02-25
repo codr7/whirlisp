@@ -1,5 +1,8 @@
 # A whirlwind Lisp adventure
 
+
+### Introduction
+
 We will implement a log-based table abstraction modeled on relational databases in Common Lisp, and take it just far enough to be practically useful. To get a real worldish perspective of how macros may be used to mould the language around the solution, which allows compressing code **and** increasing clarity.
 
 Besides the [code](https://github.com/codr7/whirlisp/blob/main/whir.lisp), you'll need a Common Lisp implementation; the most popular open source alternative being [SBCL](http://sbcl.org/).
@@ -13,6 +16,8 @@ Which brings us to the point where we can start to get an appreciation for what 
 As should be expected, writing macros takes a tiny bit more discipline and effort than regular code; but the reward is more or less unlimited power within the limits of the language implementation. Mostly anything that may be accomplished by someone implementing Common Lisp; is available for regular users of the language, from within the language.
 
 [The Common Lisp Hyperspec](http://www.lispworks.com/documentation/HyperSpec/Front/Contents.htm) contains everything you could possibly want to know and the kitchen sink regarding specific Lisp features.
+
+### Implementation
 
 Lets start by creating a class to represent tables with names, columns and records.
 
@@ -134,6 +139,8 @@ And adding tests to make sure we're on the right track.
       (close-table users))))
 ```
 
+### Macros
+
 In most commonly used languages, this is about as far as it would be possible to take the API. There are various tricks circulating depending on language, method chaining being one of the more common approaches; but it more often than not ends up feeling more like chasing your own tail than actually improving the situation. Ruby's implicit block arguments, Python's with-statement and Java's try-with-resources are examples of facilities provided to solve specific classes of macro problems.
 
 I can spot two obvious possibilities to improve the API using macros:
@@ -191,6 +198,18 @@ Which results in a final rewrite of the tests as follows.
       (assert (= (record-count users) 0)))))
 ```
 
+One indispensable tool for debugging macros is `macroexpand`.
+
+```
+> (macroexpand `(let-table (users (username :primary-key? t) password)))
+(LET ((USERS
+       (NEW-TABLE 'USERS (NEW-COLUMN 'USERNAME :PRIMARY-KEY? T)
+                  (NEW-COLUMN 'PASSWORD)))))
+T
+```
+
+### Missing pieces
+
 We will use generic methods, a core feature of Common Lisp's OOP facilities; to add the final missing pieces of functionality: inserting and finding records. This allows external code to extend or override the implementation without modifying the library.
 
 ```
@@ -230,6 +249,8 @@ We will use generic methods, a core feature of Common Lisp's OOP facilities; to 
   (test-1c)
   (test-2))
 ```
+
+### Limitations
 
 All that remains is executing `(whirlisp:tests)` after loading `whir.lisp` to run all tests.
 
