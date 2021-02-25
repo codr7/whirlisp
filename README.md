@@ -147,16 +147,18 @@ In most commonly used languages, this is about as far as it would be possible to
 
 I can spot two obvious possibilities to improve the API using macros:
 
-The first would be to add a `with-open-table`-macro to get rid of the need to manually close the file, as well as `unwind-protect`.
+The first would be to add a `with-open-tables`-macro to get rid of the need to manually close the file, as well as `unwind-protect`.
 
 ```lisp
-(defmacro with-open-table ((tbl) &body body)
+(defmacro with-open-tables ((&rest tbls) &body body)
   (let (($tbl (gensym)))
-    `(let ((,$tbl ,tbl))
-       (open-table ,$tbl)
+    `(progn
+       (dolist ((,$tbl ,@tbls))
+	 (open-table ,$tbl))
        (unwind-protect
 	    (progn ,@body)
-         (close-table ,$tbl)))))
+	 (dolist ((,$tbl ,@tbls))
+           (close-table ,$tbl))))))
 ```
 
 Rewriting the tests results in the following code.
@@ -171,7 +173,7 @@ Rewriting the tests results in the following code.
     (assert (string= (name users) 'users))
     (assert (= (column-count users) 2))
     (assert (eq (name (first (primary-key users))) 'username))
-    (with-open-table (users)
+    (with-open-tables (users)
       (assert (= (record-count users) 0)))))
 ```
 
@@ -196,7 +198,7 @@ Which results in a final rewrite of the tests as follows.
     (assert (string= (name users) 'users))
     (assert (= (column-count users) 2))
     (assert (eq (name (first (primary-key users))) 'username))
-    (with-open-table (users)
+    (with-open-tables (users)
       (assert (= (record-count users) 0)))))
 ```
 
@@ -235,7 +237,7 @@ With macros in place, it's time to add the final missing pieces: inserting, upda
   (test-setup)
   
   (let-table (users (username :primary-key? t) password)
-    (with-open-table (users)
+    (with-open-tables (users)
       (let ((rec (new-record 'username "ben_dover"
 			     'password "badumdish")))
         (upsert users rec)

@@ -104,13 +104,16 @@
 	 (assert (= (record-count users) 0))
       (close-table users))))
 
-(defmacro with-open-table ((tbl) &body body)
-  (let (($tbl (gensym)))
-    `(let ((,$tbl ,tbl))
-       (open-table ,$tbl)
+(defmacro with-open-tables ((&rest tbls) &body body)
+  (let (($tbl (gensym))
+	($tbls (gensym)))
+    `(let ((,$tbls (list ,@tbls)))
+       (dolist (,$tbl ,$tbls)
+	 (open-table ,$tbl))
        (unwind-protect
 	    (progn ,@body)
-         (close-table ,$tbl)))))
+	 (dolist (,$tbl ,$tbls)
+	   (close-table ,$tbl))))))
 
 (defun test-1b ()
   (test-setup)
@@ -121,7 +124,7 @@
     (assert (string= (name users) 'users))
     (assert (= (column-count users) 2))
     (assert (eq (name (first (primary-key users))) 'username))
-    (with-open-table (users)
+    (with-open-tables (users)
       (assert (= (record-count users) 0)))))
 
 (defmacro let-table ((name &rest cols) &body body)
@@ -138,7 +141,7 @@
     (assert (string= (name users) 'users))
     (assert (= (column-count users) 2))
     (assert (eq (name (first (primary-key users))) 'username))
-    (with-open-table (users)
+    (with-open-tables (users)
       (assert (= (record-count users) 0)))))
 
 (defun upsert (tbl rec)
@@ -161,7 +164,7 @@
   (test-setup)
   
   (let-table (users (username :primary-key? t) password)
-    (with-open-table (users)
+    (with-open-tables (users)
       (let ((rec (new-record 'username "ben_dover"
 			     'password "badumdish")))
         (upsert users rec)
