@@ -254,7 +254,7 @@ We will use generic methods, a core feature of Common Lisp's OOP facilities; to 
 
 All that remains is executing `(whirlisp:tests)` after loading `whir.lisp` to run all tests.
 
-Before we part for now, I feel obliged to mention a few limitations, lest someone gets any crazy ideas:
+Before we part, I feel obliged to mention a few limitations, lest someone gets any crazy ideas:
 
 * One thread at a time, people; multi-threading requires safe system-wide serialization of file accesses.
 * All records are stored in RAM; while not impossible to get around, doing so would add significant complexity.
