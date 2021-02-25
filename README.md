@@ -221,7 +221,7 @@ We will use generic methods, a core feature of Common Lisp's OOP facilities; to 
                        (primary-key tbl))))
       (write key :stream file)
       (write rec :stream file)
-      (setf (gethash key (records tbl)) (copy-alist rec)))))
+      (setf (gethash key (records tbl)) rec))))
 
 (defmethod find-key (tbl &rest key)
   "Returns record for KEY in TBL if found, otherwise NIL"
