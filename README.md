@@ -85,7 +85,7 @@ Lets start by creating a class to represent tables with names, columns and recor
 
 All that's left is deciding on a representation for columns, we will go with a class here as well.
 
-```
+```lisp
 (defclass column ()
   ((name :initarg :name
          :reader name)
@@ -119,7 +119,7 @@ All that's left is deciding on a representation for columns, we will go with a c
 
 And adding tests to make sure we're on the right track.
 
-```
+```lisp
 (defun test-setup ()
   (when (probe-file "users.tbl")
     (assert (delete-file "users.tbl"))))
@@ -147,7 +147,7 @@ I can spot two obvious possibilities to improve the API using macros:
 
 The first would be to add a `with-open-table`-macro to get rid of the need to manually close the file, as well as `unwind-protect`.
 
-```
+```lisp
 (defmacro with-open-table ((tbl) &body body)
   (let (($tbl (gensym)))
     `(let ((,$tbl ,tbl))
@@ -159,7 +159,7 @@ The first would be to add a `with-open-table`-macro to get rid of the need to ma
 
 Rewriting the tests results in the following code.
 
-```
+```lisp
 (defun test-1b ()
   (test-setup)
   
@@ -175,7 +175,7 @@ Rewriting the tests results in the following code.
 
 Followed by a `let-table`-macro to improve the `new-table`-mess.
 
-```
+```lisp
 (defmacro let-table ((name &rest cols) &body body)
   `(let ((,name (new-table ',name
 			   ,@(mapcar (lambda (c)
@@ -186,7 +186,7 @@ Followed by a `let-table`-macro to improve the `new-table`-mess.
 
 Which results in a final rewrite of the tests as follows.
 
-```
+```lisp
 (defun test-1c ()
   (test-setup)
   
@@ -212,7 +212,7 @@ T
 
 We will use generic methods, a core feature of Common Lisp's OOP facilities; to add the final missing pieces of functionality: inserting and finding records. This allows external code to extend or override the implementation without modifying the library.
 
-```
+```lisp
 (defmethod upsert (tbl rec)
   "Inserts or updates REC in TBL"
   (with-slots (file) tbl
