@@ -112,7 +112,7 @@ All that's left is deciding on a representation for columns, we will go with a c
   (apply #'set-column-values nil flds))
 ```
 
-And add some tests to make sure we're on the right track.
+And adding tests to make sure we're on the right track.
 
 ```
 (defun test-setup ()
@@ -134,7 +134,7 @@ And add some tests to make sure we're on the right track.
       (close-table users))))
 ```
 
-In most commonly used languages, this is about as far as it would be possible to take the API. There are various tricks circulating depending on language, method chaining being one of the more common approaches. Ruby's implicit block arguments, Python's with-statement and Java's try-with-resources are examples of facilities provided to solve specific classes of macro problems.
+In most commonly used languages, this is about as far as it would be possible to take the API. There are various tricks circulating depending on language, method chaining being one of the more common approaches; but it more often than not ends up feeling more like chasing your own tail than actually improving the situation. Ruby's implicit block arguments, Python's with-statement and Java's try-with-resources are examples of facilities provided to solve specific classes of macro problems.
 
 I can spot two obvious possibilities to improve the API using macros:
 
