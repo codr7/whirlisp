@@ -119,7 +119,7 @@ We will use immutable lists of pairs, aka. association lists or alists to repres
   (apply #'set-column-values nil flds))
 ```
 
-And adding tests to make sure we're on the right track.
+Lets stop for a second to make sure we're on the right track.
 
 ```lisp
 (defun test-setup ()
