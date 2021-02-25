@@ -141,7 +141,7 @@
     (with-open-table (users)
       (assert (= (record-count users) 0)))))
 
-(defmethod upsert (tbl rec)
+(defun upsert (tbl rec)
   "Inserts or updates REC in TBL"
   (with-slots (file) tbl
     (let ((key (mapcar (lambda (c)
@@ -153,7 +153,7 @@
       (terpri file)
       (setf (gethash key (records tbl)) rec))))
 
-(defmethod find-key (tbl &rest key)
+(defun find-key (tbl &rest key)
   "Returns record for KEY in TBL if found, otherwise NIL"
   (gethash key (records tbl)))
 

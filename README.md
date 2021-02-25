@@ -212,10 +212,10 @@ T
 
 ### Missing pieces
 
-We will use generic methods, a core feature of Common Lisp's OOP facilities; to add the final missing pieces of functionality: inserting and finding records. This allows external code to extend or override the implementation without modifying the library.
+With macros in place, it's time to add the final missing pieces: inserting, updating and finding records.
 
 ```lisp
-(defmethod upsert (tbl rec)
+(defun upsert (tbl rec)
   "Inserts or updates REC in TBL"
   (with-slots (file) tbl
     (let ((key (mapcar (lambda (c)
@@ -227,7 +227,7 @@ We will use generic methods, a core feature of Common Lisp's OOP facilities; to 
       (terpri file)
       (setf (gethash key (records tbl)) rec))))
 
-(defmethod find-key (tbl &rest key)
+(defun find-key (tbl &rest key)
   "Returns record for KEY in TBL if found, otherwise NIL"
   (gethash key (records tbl)))
 
