@@ -257,6 +257,14 @@ With macros in place, it's time to add the final missing pieces: inserting, upda
 
 All that remains is executing `(whirlisp:tests)` after loading `whir.lisp` to run all tests.
 
+### File format
+This is what the file `users.tbl` contains after running `test-2`:
+
+```
+("ben_dover")((PASSWORD . "badumdish") (USERNAME . "ben_dover"))
+("ben_dover")((PASSWORD . "leaving!") (USERNAME . "ben_dover"))
+```
+
 ### Limitations
 
 Before we part, I feel obliged to mention a few limitations, lest someone gets any crazy ideas:
@@ -265,6 +273,7 @@ Before we part, I feel obliged to mention a few limitations, lest someone gets a
 * All records are stored in RAM; while not impossible to get around, doing so would add significant complexity.
 * NoACID, as in no transactions and no attempt to deal with hardware failures; both possible but complicated.
 * Column values have to support being written and read back again, fortunately that includes most values you will encounter in Lisp.
+* At some point it will make sense to start thinking about pruning the log by dumping the current set of records.
 
 I have intentionally left deletion as an exercise; the most obvious solution I can think of is writing a sentinel value, `:deleted` for example, in place of the record and adding the required logic to `read-records` using `(remhash key tbl)`.
 
