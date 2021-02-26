@@ -147,7 +147,7 @@
       (assert (= (record-count users) 0)))))
 
 (defun upsert (tbl rec)
-  "Inserts or updates REC in TBL"
+  "Inserts/updates REC in TBL"
   (with-slots (file) tbl
     (let ((key (mapcar (lambda (c)
                          (rest (assoc (name c) rec)))

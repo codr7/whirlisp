@@ -3,7 +3,7 @@
 
 ### Introduction
 
-We will implement a log-based, relational database in Common Lisp; and take it just far enough to be practically useful. To get a real worldish perspective of how macros may be used to mould the language around the solution, which allows compressing code **and** increasing clarity.
+We will implement a log-based, relational database in Common Lisp; and take it just far enough to be practically useful. To get a real worldish perspective of how macros may be used to shrink wrap the language around the solution, which allows compressing code **and** increasing clarity.
 
 Besides the [code](https://github.com/codr7/whirlisp/blob/main/whir.lisp), you'll need a Common Lisp implementation; the most popular open source alternative being [SBCL](http://sbcl.org/). I personally prefer [Emacs](https://www.gnu.org/software/emacs/) with [SLIME](https://common-lisp.net/project/slime/) backed by SBCL as my Lisp IDE; an aquired taste, or complete lack of depending on who you ask.
 
@@ -217,7 +217,7 @@ With macros in place, it's time to add the final missing pieces: inserting, upda
 
 ```lisp
 (defun upsert (tbl rec)
-  "Inserts or updates REC in TBL"
+  "Inserts/updates REC in TBL"
   (with-slots (file) tbl
     (let ((key (mapcar (lambda (c)
                          (rest (assoc (name c) rec)))
