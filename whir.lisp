@@ -132,7 +132,9 @@
 (defmacro let-table ((name &rest cols) &body body)
   `(let ((,name (new-table ',name
 			   ,@(mapcar (lambda (c)
-                                       (if (listp c) `(new-column ',(first c) ,@(rest c)) `(new-column ',c)))
+                                       (if (listp c)
+					   `(new-column ',(first c) ,@(rest c))
+					   `(new-column ',c)))
 				     cols))))
      ,@body))
 

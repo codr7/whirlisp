@@ -143,11 +143,11 @@ Lets stop for a second to make sure we're on the right track.
 
 ### Macros
 
-In most commonly used languages, this is about as far as it would be possible to take the API. There are various tricks circulating depending on language, method chaining being one of the more common approaches; but it more often than not ends up feeling more like chasing your own tail than actually improving the situation. Ruby's implicit block arguments, Python's with-statement and Java's try-with-resources are examples of facilities provided to solve specific classes of macro problems.
+In most commonly used languages, this is about as far as it would be possible to take the API. There are various tricks depending on language, method chaining being one of the more common approaches; but it more often than not ends up feeling like chasing your tail rather than actually improving the situation. Ruby's implicit block arguments, Python's with-statement and Java's try-with-resources are examples of facilities provided to solve specific classes of macro problems.
 
-I can spot two obvious possibilities to improve the API using macros:
+I can spot two relatively trivial possibilities to improve the API using macros:
 
-The first would be to add a `with-open-tables`-macro to get rid of the need to manually close the file, as well as `unwind-protect`.
+The first is adding a `with-open-tables`-macro to get rid of the need to manually close the file, as well as `unwind-protect`. We're generating a unique symbol and binding it to `$tbl`, which is then used to avoid shadowing identifiers in the macro expansion scope.
 
 ```lisp
 (defmacro with-open-tables ((&rest tbls) &body body)
@@ -183,7 +183,9 @@ Followed by a `let-table`-macro to improve the `new-table`-mess.
 (defmacro let-table ((name &rest cols) &body body)
   `(let ((,name (new-table ',name
 			   ,@(mapcar (lambda (c)
-                                       (if (listp c) `(new-column ',(first c) ,@(rest c)) `(new-column ',c)))
+                                       (if (listp c)
+					   `(new-column ',(first c) ,@(rest c))
+					   `(new-column ',c)))
 				     cols))))
      ,@body))
 ```
@@ -202,7 +204,7 @@ Which results in a final rewrite of the tests as follows.
       (assert (= (record-count users) 0)))))
 ```
 
-One indispensable tool for debugging macros is `macroexpand`.
+Once you get tired of mentally expanding macros, `macroexpand` may be used to automate the process.
 
 ```
 > (macroexpand `(let-table (users (username :primary-key? t) password)))
@@ -258,7 +260,7 @@ With macros in place, it's time to add the final missing pieces: inserting, upda
 All that remains is executing `(whirlisp:tests)` after loading `whir.lisp` to run all tests.
 
 ### File format
-This is what the file `users.tbl` contains after running `test-2`:
+This is what the file `users.tbl` contains after running `test-2`, the first list contains the key and the second the complete record:
 
 ```
 ("ben_dover")((PASSWORD . "badum") (USERNAME . "ben_dover"))
@@ -269,7 +271,7 @@ This is what the file `users.tbl` contains after running `test-2`:
 
 Before we part, I feel obliged to mention a few limitations, lest someone gets any crazy ideas:
 
-* One thread at a time, people; multi-threading requires safe system-wide serialization of file accesses.
+* One thread at a time, people; multi-threading requires safe system-wide serialization of file access.
 * All records are stored in RAM; while not impossible to get around, doing so would add significant complexity.
 * NoACID, as in no transactions and no attempt to deal with hardware failures; both possible but complicated.
 * Column values have to support being written and read back again, fortunately that includes most values you will encounter in Lisp.
