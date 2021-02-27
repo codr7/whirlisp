@@ -177,17 +177,19 @@ Rewriting the tests results in the following code.
       (assert (= (record-count users) 0)))))
 ```
 
-Followed by a `let-table`-macro to improve the `new-table`-mess.
+Followed by a `let-tables`-macro to improve the `new-table`-mess.
 
 ```lisp
-(defmacro let-table ((name &rest cols) &body body)
-  `(let ((,name (new-table ',name
-			   ,@(mapcar (lambda (c)
-                                       (if (listp c)
-					   `(new-column ',(first c) ,@(rest c))
-					   `(new-column ',c)))
-				     cols))))
-     ,@body))
+(defmacro let-tables ((&rest tables) &body body)
+  (labels ((bind (name &rest cols)
+	     `(,name (new-table ',name
+				,@(mapcar (lambda (c)
+					    (if (listp c)
+						`(new-column ',(first c) ,@(rest c))
+						`(new-column ',c)))
+					  cols)))))
+    `(let (,@(mapcar (lambda (x) (apply #'bind x)) tables)) 
+       ,@body)))
 ```
 
 Which results in a final rewrite of the tests as follows.
@@ -196,7 +198,7 @@ Which results in a final rewrite of the tests as follows.
 (defun test-1c ()
   (test-setup)
   
-  (let-table (users (username :primary-key? t) password)
+  (let-tables ((users (username :primary-key? t) password))
     (assert (string= (name users) 'users))
     (assert (= (column-count users) 2))
     (assert (eq (name (first (primary-key users))) 'username))
@@ -207,7 +209,7 @@ Which results in a final rewrite of the tests as follows.
 Once you get tired of mentally expanding macros, `macroexpand` may be used to automate the process.
 
 ```
-> (macroexpand `(let-table (users (username :primary-key? t) password)))
+> (macroexpand `((let-tables ((users (username :primary-key? t) password)))))
 (LET ((USERS
        (NEW-TABLE 'USERS (NEW-COLUMN 'USERNAME :PRIMARY-KEY? T)
                   (NEW-COLUMN 'PASSWORD)))))
@@ -215,10 +217,10 @@ Once you get tired of mentally expanding macros, `macroexpand` may be used to au
 
 ### Missing pieces
 
-With macros in place, it's time to add the final missing pieces: inserting, updating and finding records.
+With macros in place, it's time to add the final missing pieces: storing and finding records.
 
 ```lisp
-(defun upsert (tbl rec)
+(defun store-record (tbl rec)
   "Inserts/updates REC in TBL"
   (with-slots (file) tbl
     (let ((key (mapcar (lambda (c)
@@ -230,24 +232,24 @@ With macros in place, it's time to add the final missing pieces: inserting, upda
       (terpri file)
       (setf (gethash key (records tbl)) rec))))
 
-(defun find-key (tbl &rest key)
+(defun find-record (tbl &rest key)
   "Returns record for KEY in TBL if found, otherwise NIL"
   (gethash key (records tbl)))
 
 (defun test-2 ()
   (test-setup)
   
-  (let-table (users (username :primary-key? t) password)
+  (let-tables ((users (username :primary-key? t) password))
     (with-open-tables (users)
       (let ((rec (new-record 'username "ben_dover"
 			     'password "badum")))
-        (upsert users rec)
-        (assert (string= (column-value (find-key users "ben_dover") 'password)
+        (store-record users rec)
+        (assert (string= (column-value (find-record users "ben_dover") 'password)
                          "badum"))
 	
         (let ((rec (set-column-values rec 'password "dish")))
-          (upsert users rec)
-          (assert (string= (column-value (find-key users "ben_dover") 'password)
+          (store-record users rec)
+          (assert (string= (column-value (find-record users "ben_dover") 'password)
                            "dish")))))))
 
 (defun tests ()
