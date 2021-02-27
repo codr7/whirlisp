@@ -143,7 +143,7 @@
 (defun test-1c ()
   (test-setup)
   
-  (let-table ((users (username :primary-key? t) password))
+  (let-tables ((users (username :primary-key? t) password))
     (assert (string= (name users) 'users))
     (assert (= (column-count users) 2))
     (assert (eq (name (first (primary-key users))) 'username))
@@ -169,7 +169,7 @@
 (defun test-2 ()
   (test-setup)
   
-  (let-table ((users (username :primary-key? t) password))
+  (let-tables ((users (username :primary-key? t) password))
     (with-open-tables (users)
       (let ((rec (new-record 'username "ben_dover"
 			     'password "badum")))
