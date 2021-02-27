@@ -152,7 +152,7 @@
 
 (defun store-record (tbl rec)
   "Stores REC in TBL"
-  (with-slots (file) tbl
+  (with-slots (file records) tbl
     (let ((key (mapcar (lambda (c)
                          (rest (assoc (name c) rec)))
                        (primary-key tbl)))
@@ -160,7 +160,7 @@
       (write key :stream file)
       (write rec :stream file)
       (terpri file)
-      (setf (gethash key (records tbl)) rec))))
+      (setf (gethash key records) rec))))
 
 (defun find-record (tbl &rest key)
   "Returns record for KEY in TBL if found, otherwise NIL"

@@ -221,8 +221,8 @@ With macros in place, it's time to add the final missing pieces: storing and fin
 
 ```lisp
 (defun store-record (tbl rec)
-  "Inserts/updates REC in TBL"
-  (with-slots (file) tbl
+  "Stores REC in TBL"
+  (with-slots (file records) tbl
     (let ((key (mapcar (lambda (c)
                          (rest (assoc (name c) rec)))
                        (primary-key tbl)))
@@ -230,7 +230,7 @@ With macros in place, it's time to add the final missing pieces: storing and fin
       (write key :stream file)
       (write rec :stream file)
       (terpri file)
-      (setf (gethash key (records tbl)) rec))))
+      (setf (gethash key records) rec))))
 
 (defun find-record (tbl &rest key)
   "Returns record for KEY in TBL if found, otherwise NIL"
