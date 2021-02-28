@@ -274,7 +274,7 @@ Before we part, I feel obliged to mention a few limitations, lest someone gets a
 * Column values have to support being written and read back again, fortunately that includes most values you will encounter in Lisp.
 * At some point it will make sense to start thinking about pruning the log by dumping the current set of records.
 
-I have intentionally left deletion as an exercise; the most obvious solution I can think of is writing a sentinel value, `:deleted` for example, in place of the record and adding the required logic to `read-records` using `(remhash key tbl)`.
+I have intentionally left record deletion as an exercise; the most obvious solution I can think of is writing a sentinel value in place of the record and adding the required logic to `read-records`.
 
 Thanks a bunch for listening, no point in talking otherwise :)
 
