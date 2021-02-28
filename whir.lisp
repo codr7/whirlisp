@@ -88,6 +88,12 @@
   "Returns new record with FLDS"
   (apply #'set-column-values nil flds))
 
+(defun record-key (rec tbl)
+  "Returns key for REC in TBL"
+  (mapcar (lambda (c)
+            (column-value rec (name c)))
+          (primary-key tbl)))
+
 (defun test-setup ()
   (when (probe-file "users.tbl")
     (assert (delete-file "users.tbl"))))
@@ -153,9 +159,7 @@
 (defun store-record (tbl rec)
   "Stores REC in TBL"
   (with-slots (file records) tbl
-    (let ((key (mapcar (lambda (c)
-                         (rest (assoc (name c) rec)))
-                       (primary-key tbl)))
+    (let ((key (record-key rec tbl))
 	  (rec (remove-duplicates rec :key #'first :from-end t)))
       (write key :stream file)
       (write rec :stream file)
@@ -173,6 +177,7 @@
     (with-open-tables (users)
       (let ((rec (new-record 'username "ben_dover"
 			     'password "badum")))
+	(assert (equal '("ben_dover") (record-key rec users)))
         (store-record users rec)
         (assert (string= (column-value (find-record users "ben_dover") 'password)
                          "badum"))

@@ -111,6 +111,12 @@ We will use immutable lists of pairs, aka. association lists or alists to repres
 (defun new-record (&rest flds)
   "Returns new record with FLDS"
   (apply #'set-column-values nil flds))
+
+(defun record-key (rec tbl)
+  "Returns key for REC in TBL"
+  (mapcar (lambda (c)
+            (column-value rec (name c)))
+          (primary-key tbl)))
 ```
 
 Lets try it out!
@@ -217,9 +223,7 @@ With macros in place, it's time to add the final missing pieces: storing and fin
 (defun store-record (tbl rec)
   "Stores REC in TBL"
   (with-slots (file records) tbl
-    (let ((key (mapcar (lambda (c)
-                         (rest (assoc (name c) rec)))
-                       (primary-key tbl)))
+    (let ((key (record-key rec tbl))
 	  (rec (remove-duplicates rec :key #'first :from-end t)))
       (write key :stream file)
       (write rec :stream file)
