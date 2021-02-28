@@ -9,9 +9,7 @@ Besides the [code](https://github.com/codr7/whirlisp/blob/main/whir.lisp), you'l
 
 It's worth noting that Common Lisp's OOP facilities started out as a bunch of macros on top of a third party implementation; and even though modern compilers usually have built-in support, there was no need for major changes during standardization since Lisp macros already operate on the language implementation level.
 
-Which brings us to the point where we can start to get an appreciation for what macro programming, or meta programming, means. It means writing code that runs in a separate dimension, one step above regular code, with its own additional set of capabilities; or simply code that writes code.
-
-As should be expected, writing macros takes a tiny bit more discipline and effort than regular code; but the reward is more or less unlimited power within the limits of the language implementation. Mostly anything that may be accomplished by someone implementing Common Lisp; is available for regular users of the language, from within the language.
+Macro programming, or meta programming, means writing code that runs in a separate dimension, one step above regular code, with its own additional set of capabilities; or simply code that writes code. As should be expected, writing macros takes a tiny bit more discipline and effort than regular code; but the reward is more or less unlimited power within the limits of the language implementation. Mostly anything that may be accomplished by someone implementing Common Lisp; is available for regular users of the language, from within the language.
 
 [The Common Lisp Hyperspec](http://www.lispworks.com/documentation/HyperSpec/Front/Contents.htm) contains everything you could possibly want to know and the kitchen sink regarding specific features.
 
@@ -276,6 +274,7 @@ Before we part, I feel obliged to mention a few limitations, lest someone gets a
 * One thread at a time, people; multi-threading requires safe system-wide serialization of file access.
 * All records are stored in RAM; while not impossible to get around, doing so would add significant complexity.
 * NoACID, as in no transactions and no attempt to deal with hardware failures; both possible but complicated.
+* Modify primary keys at your own peril.
 * Column values have to support being written and read back again, fortunately that includes most values you will encounter in Lisp.
 * At some point it will make sense to start thinking about pruning the log by dumping the current set of records.
 
