@@ -263,17 +263,16 @@ This is what the file `users.tbl` contains after running `test-2`, the first lis
 ("ben_dover")((PASSWORD . "dish") (USERNAME . "ben_dover"))
 ```
 
-### Limitations
+### Current Limitations
 
-Before we part, I feel obliged to mention a few limitations, lest someone gets any crazy ideas:
+Before we part, I feel obliged to mention a few limitations of the current implementation, lest someone gets any crazy ideas:
 
-* One thread at a time, people; multi-threading requires safe system-wide serialization of file access.
-* All records are stored in RAM; while not impossible to get around, doing so would add significant complexity.
-* NoACID, as in no transactions and no attempt to deal with hardware failures; both possible but complicated.
-* Modify primary keys at your own peril.
-* Column values have to support being written and read back again, fortunately that includes most values you will encounter in Lisp.
-* At some point it will make sense to start thinking about pruning the log by dumping the current set of records.
-* I have intentionally left record deletion as an exercise.
+* One thread at a time, people
+* All records are stored in RAM
+* NoACID, no transactions are provided and no attempts made to deal gracefully with write failures
+* Modify primary keys at your own peril
+* At some point it will probably make sense to prune the log
+* Record deletion is left as an exercise
 
 Thanks a bunch for listening, no point in talking otherwise :)
 
