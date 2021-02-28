@@ -206,7 +206,7 @@ Which results in a final rewrite of the tests as follows.
       (assert (= (record-count users) 0)))))
 ```
 
-Once you get tired of mentally expanding macros, `macroexpand` may be used to automate the process.
+Once you get tired of mentally expanding macros, `macroexpand` may be used to outsource the effort.
 
 ```
 > (macroexpand `((let-tables ((users (username :primary-key? t) password)))))
