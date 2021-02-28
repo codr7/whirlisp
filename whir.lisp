@@ -16,10 +16,10 @@
    (records :initform (make-hash-table :test 'equal)
             :reader records)))
 
-(defun new-table (nam &rest cols)
-  "Returns new table with NAM and COLS"
+(defun new-table (name &rest cols)
+  "Returns new table with NAME and COLS"
   (make-instance 'table
-                 :name nam
+                 :name name
 		 :primary-key (remove-if-not #'primary-key? cols)
                  :columns cols))
 
@@ -63,11 +63,11 @@
 		 :initform nil
                  :reader primary-key?)))
 
-(defun new-column (nam &rest opts)
-  "Returns new columns for NAM and OPTS"
+(defun new-column (name &rest opts)
+  "Returns new columns for NAME and OPTS"
   (apply #'make-instance
          'column
-         :name nam
+         :name name
 	 opts))
 
 (defun column-value (rec col)
