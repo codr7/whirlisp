@@ -5,7 +5,7 @@
 
 We will implement a log-based, relational database in Common Lisp; and take it just far enough to be practically useful. To get a real worldish perspective of how macros may be used to shrink wrap the language around the solution, which allows compressing code **and** increasing clarity.
 
-Macro programming, or meta programming, means writing code that runs in a separate dimension; one step above regular code, with its own additional set of capabilities; code that writes code. As should be expected, writing macros takes a tiny bit more discipline and effort than regular code; but the reward is more or less unlimited power within the limits of the language implementation. Mostly anything that may be accomplished by someone implementing Common Lisp; is available for regular users of the language, from within the language.
+Macro programming, or meta programming, means writing code that runs in a separate dimension; one step above regular code, with its own additional set of capabilities and difficulties; code that writes code. As should be expected, writing macros takes a tiny bit more discipline and effort than regular code; but the reward is more or less unlimited power within the limits of the language implementation. Mostly anything that may be accomplished by someone implementing Common Lisp; is available for regular users of the language, from within the language, in the form of macros.
 
 Besides the [code](https://github.com/codr7/whirlisp/blob/main/whir.lisp), you'll need a Common Lisp implementation; the most popular open source alternative being [SBCL](http://sbcl.org/). I personally prefer [Emacs](https://www.gnu.org/software/emacs/) with [SLIME](https://common-lisp.net/project/slime/) backed by SBCL as my Lisp IDE; an aquired taste, or complete lack of depending on who you ask. [The Common Lisp Hyperspec](http://www.lispworks.com/documentation/HyperSpec/Front/Contents.htm) contains everything you could possibly want to know and the kitchen sink regarding specific features.
 
@@ -161,7 +161,7 @@ First uo is adding a `with-open-tables`-macro to get rid of the need to manually
            (close-table ,$tbl))))))
 ```
 
-Rewriting the tests results in the following code.
+Rewriting the tests results in the following code:
 
 ```lisp
 (defun test-1b ()
@@ -177,7 +177,7 @@ Rewriting the tests results in the following code.
       (assert (= (record-count users) 0)))))
 ```
 
-Next up, I would like to do something about the `new-table`-mess.
+Next up, I would like to do something about the `new-table`-mess:
 
 ```lisp
 (defmacro let-tables ((&rest tables) &body body)
@@ -192,7 +192,7 @@ Next up, I would like to do something about the `new-table`-mess.
        ,@body)))
 ```
 
-Which results in a final rewrite of the tests as follows.
+Which results in a final rewrite of the tests as follows:
 
 ```lisp
 (defun test-1c ()
@@ -206,7 +206,7 @@ Which results in a final rewrite of the tests as follows.
       (assert (= (record-count users) 0)))))
 ```
 
-Mentally expanding macros gets old fast, `macroexpand` does the job for you.
+Mentally expanding macros gets old fast, `macroexpand` does the job for you:
 
 ```
 > (macroexpand `((let-tables ((users (username :primary-key? t) password)))))
@@ -217,7 +217,7 @@ Mentally expanding macros gets old fast, `macroexpand` does the job for you.
 
 ### Missing pieces
 
-With macros in place, it's time to add the final missing features: storing and finding records.
+With macros in place, it's time to add the final missing features: storing and finding records:
 
 ```lisp
 (defun store-record (tbl rec)
