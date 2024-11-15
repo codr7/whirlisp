@@ -147,7 +147,7 @@ In most commonly used languages, this is about as far as it would be possible to
 
 I can spot two relatively trivial possibilities to improve the API using macros:
 
-The first is adding a `with-open-tables`-macro to get rid of the need to manually close the file, as well as `unwind-protect`. We're generating a unique symbol and binding it to `$tbl`, which is then used to avoid shadowing identifiers in the macro expansion scope.
+First uo is adding a `with-open-tables`-macro to get rid of the need to manually close the file, as well as `unwind-protect`. We're generating a unique symbol, stored in `$tbl`, to avoid shadowing existing identifiers on expansion.
 
 ```lisp
 (defmacro with-open-tables ((&rest tbls) &body body)
@@ -177,7 +177,7 @@ Rewriting the tests results in the following code.
       (assert (= (record-count users) 0)))))
 ```
 
-Followed by a `let-tables`-macro to improve the `new-table`-mess.
+Next up, I would like to do something about the `new-table`-mess.
 
 ```lisp
 (defmacro let-tables ((&rest tables) &body body)
@@ -206,7 +206,7 @@ Which results in a final rewrite of the tests as follows.
       (assert (= (record-count users) 0)))))
 ```
 
-Once you get tired of mentally expanding macros, `macroexpand` may be used to outsource the effort.
+Mentally expanding macros gets old fast, `macroexpand` does the job for you.
 
 ```
 > (macroexpand `((let-tables ((users (username :primary-key? t) password)))))
@@ -217,7 +217,7 @@ Once you get tired of mentally expanding macros, `macroexpand` may be used to ou
 
 ### Missing pieces
 
-With macros in place, it's time to add the final missing pieces: storing and finding records.
+With macros in place, it's time to add the final missing features: storing and finding records.
 
 ```lisp
 (defun store-record (tbl rec)
@@ -277,7 +277,3 @@ Before we part, I feel obliged to mention a few limitations of the current imple
 * Modify primary keys at your own peril
 * At some point it will probably make sense to prune the log
 * Record deletion is left as an exercise
-
-Thanks a bunch for listening, no point in talking otherwise :)
-
-/codr7
