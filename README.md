@@ -257,7 +257,7 @@ With macros in place, it's time to add the final missing features: storing and f
   (test-2))
 ```
 
-All that remains is executing `(whirlisp:tests)` after loading `whir.lisp` to run all tests.
+All that remains is loading loading `whir.lisp` and evaluating `(whirlisp:tests)` to run all tests.
 
 ### File format
 This is what the file `users.tbl` contains after running `test-2`, the first list contains the key and the second the complete record:
