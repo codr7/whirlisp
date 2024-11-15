@@ -1,4 +1,4 @@
-# ![Lisp Mascot](lisp.png?raw=true) A whirlwind Lisp adventure
+# ![Lisp Mascot](lisp.png?raw=true) a Whirlwind Lisp Adventure
 
 
 ### Introduction
