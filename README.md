@@ -239,15 +239,15 @@ With macros in place, it's time to add the final missing pieces: storing and fin
   
   (let-tables ((users (username :primary-key? t) password))
     (with-open-tables (users)
-      (let ((rec (new-record 'username "ben_dover"
+      (let ((rec (new-record 'username "Boris Kogen"
 			     'password "badum")))
         (store-record users rec)
-        (assert (string= (column-value (find-record users "ben_dover") 'password)
+        (assert (string= (column-value (find-record users "Boris Kogen") 'password)
                          "badum"))
 	
         (let ((rec (set-column-values rec 'password "dish")))
           (store-record users rec)
-          (assert (string= (column-value (find-record users "ben_dover") 'password)
+          (assert (string= (column-value (find-record users "Boris Kogen") 'password)
                            "dish")))))))
 
 (defun tests ()
@@ -263,8 +263,8 @@ All that remains is executing `(whirlisp:tests)` after loading `whir.lisp` to ru
 This is what the file `users.tbl` contains after running `test-2`, the first list contains the key and the second the complete record:
 
 ```
-("ben_dover")((PASSWORD . "badum") (USERNAME . "ben_dover"))
-("ben_dover")((PASSWORD . "dish") (USERNAME . "ben_dover"))
+("Boris Kogen")((PASSWORD . "badum") (USERNAME . "Boris Kogen"))
+("Boris Kogen")((PASSWORD . "dish") (USERNAME . "Boris Kogen"))
 ```
 
 ### Current Limitations
