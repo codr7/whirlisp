@@ -215,7 +215,7 @@ Mentally expanding macros gets old fast, `macroexpand` does the job for you:
                   (NEW-COLUMN 'PASSWORD)))))
 ```
 
-### Missing pieces
+### Missing Pieces
 
 With convenience macros in place, it's time to add the final missing features: storing and finding records:
 
@@ -259,7 +259,7 @@ With convenience macros in place, it's time to add the final missing features: s
 
 All that remains is loading loading `whir.lisp` and evaluating `(whirlisp:tests)` to run all tests.
 
-### File format
+### File Format
 This is what the file `users.tbl` contains after running `test-2`, the first list contains the key and the second the complete record:
 
 ```
