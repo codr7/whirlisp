@@ -272,9 +272,9 @@ This is what the file `users.tbl` contains after running `test-2`, the first lis
 Before we part, I feel obliged to mention a few limitations of the current implementation, lest someone gets any crazy ideas:
 
 * One thread at a time, people
-* All records are stored in RAM
+* Records are stored entirely in RAM
 * NoACID, no transactions are provided and no attempts made to deal gracefully with write failures
 * Modify primary keys at your own peril
+* Storing passwords in cleartext is likely a bad idea
 * At some point it will probably make sense to prune the log
 * Record deletion is left as an exercise
-* Storing passwords in cleartext is likely a bad idea
