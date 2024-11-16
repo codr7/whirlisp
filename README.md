@@ -277,3 +277,4 @@ Before we part, I feel obliged to mention a few limitations of the current imple
 * Modify primary keys at your own peril
 * At some point it will probably make sense to prune the log
 * Record deletion is left as an exercise
+* Storing passwords in cleartext is likely a bad idea
